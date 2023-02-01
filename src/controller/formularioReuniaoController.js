@@ -25,8 +25,7 @@ export const buscarResposta = async (req, res) => {
 };
 
 export const criarResposta = async (req, res) => {
-  const { visita, data, local, categoriaId, duracao, assunto, participanteId } =
-    req.body;
+  const { visita, data, local, categoriaId, duracao, assunto } = req.body;
 
   try {
     const respostaCriada = await prisma.formularioReuniao.create({
@@ -40,15 +39,6 @@ export const criarResposta = async (req, res) => {
       },
     });
 
-    participanteId.map(async (id) => {
-      await prisma.FormularioReuniaotoParticipante.create({
-        data: {
-          formularioReuniaoId: respostaCriada.id,
-          participanteId: id,
-        },
-      });
-    });
-
     res.status(200).json(respostaCriada);
   } catch (error) {
     res.status(400).send(error.message);
@@ -56,7 +46,24 @@ export const criarResposta = async (req, res) => {
 };
 
 export const atualizarResposta = async (req, res) => {
+  const { visita, data, local, categoriaId, duracao, assunto } = req.body;
+
   try {
+    const respostaAtualizada = await prisma.formularioReuniao.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        visita,
+        data,
+        local,
+        categoriaId,
+        duracao,
+        assunto,
+      },
+    });
+
+    res.status(200).json(respostaAtualizada);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -64,6 +71,11 @@ export const atualizarResposta = async (req, res) => {
 
 export const deletarResposta = async (req, res) => {
   try {
+    await prisma.formularioReuniao.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+
+    res.status(200).json({ message: "Resposta deletada com sucesso!" });
   } catch (error) {
     res.status(400).send(error.message);
   }
