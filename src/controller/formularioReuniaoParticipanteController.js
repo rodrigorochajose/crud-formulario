@@ -4,6 +4,12 @@ const prisma = new PrismaClient();
 
 export const buscarTodosParticipantesReuniao = async (req, res) => {
   try {
+    if (!req.body) {
+      return await prisma.formularioReuniaotoParticipante.findMany({
+        where: { formularioReuniaoId: parseInt(req) },
+        select: { participanteId: true },
+      });
+    }
     const todosParticipantes =
       await prisma.formularioReuniaotoParticipante.findMany();
 
@@ -34,13 +40,22 @@ export const criarParticipanteReuniao = async (req, res) => {
 
 export const atualizarParticipanteReuniao = async (req, res) => {
   //será recebido pelo req o id da reunião
+
+  // variaveis de teste
   const id = 4;
+  const participantesNovos = [1, 2, 3];
   try {
-    /* 
-      chamar buscarTodosParticipantesReuniao();
-      
-    */
-    console.log(teste);
+    //const participantesAtuais = await buscarTodosParticipantesReuniao(id); //verificar por onde id será passado
+
+    console.log(await buscarTodosParticipantesReuniao(id));
+
+    let intersection = participantesAtuais.filter((x) =>
+      participantesNovos.includes(x)
+    );
+
+    console.log(intersection);
+
+    res.status(200).json({ message: "Sucesso!" });
   } catch (error) {
     res.status(400).send(error.message);
   }
