@@ -5,6 +5,7 @@ import * as categoria from "../controller/categoriaController.js";
 import * as plano from "../controller/planoController.js";
 import * as formularioReuniao from "../controller/formularioReuniaoController.js";
 import * as formularioReuniaoParticipante from "../controller/formularioReuniaoParticipanteController.js";
+import * as formularioCoworking from "../controller/formularioCoworkingController.js"
 
 var jsonParser = bodyParser.json();
 const router = express.Router();
@@ -25,10 +26,10 @@ router
 
 router
   .get("/planos", plano.buscarTodosPlanos)
-  .get("/plano/:id", jsonParser, plano.buscarPlano)
-  .post("/plano", jsonParser, plano.criarPlano)
-  .put("/plano/:id", jsonParser, plano.atualizarPlano)
-  .delete("/plano/:id", jsonParser, plano.deletarPlano);
+  .get("/planos/:id", jsonParser, plano.buscarPlano)
+  .post("/planos", jsonParser, plano.criarPlano)
+  .put("/planos/:id", jsonParser, plano.atualizarPlano)
+  .delete("/planos/:id", jsonParser, plano.deletarPlano);
 
 router
   .get("/formulariosReuniao", formularioReuniao.buscarTodasRespostas)
@@ -65,5 +66,26 @@ router
     jsonParser,
     formularioReuniaoParticipante.deletarParticipanteReuniao
   );
+
+  router
+  .get(
+    "/formularioCoworking",
+    formularioCoworking.buscaTodosFormulariosCoworking
+  )
+  .get(
+    "/formularioCoworking/:id",
+    jsonParser,
+    formularioCoworking.buscaFormularioCoworkingId
+  )
+  .post(
+    "/formularioCoworking",
+    jsonParser,
+    formularioCoworking.criarFormularioCoworking
+  )
+  .delete(
+    "/formularioCoworking/:id",
+    jsonParser,
+    formularioCoworking.deletaFormularioCoworking
+  )
 
 export default router;
