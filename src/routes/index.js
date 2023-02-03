@@ -5,6 +5,7 @@ import * as categoria from "../controller/categoriaController.js";
 import * as plano from "../controller/planoController.js";
 import * as reuniao from "../controller/ReuniaoController.js";
 import * as participanteReuniao from "../controller/participanteReuniaoController.js";
+import * as coworking from "../controller/coworkingController.js";
 
 var jsonParser = bodyParser.json();
 const router = express.Router();
@@ -54,24 +55,9 @@ router
   );
 
 router
-  .get(
-    "/formularioCoworking",
-    formularioCoworking.buscaTodosFormulariosCoworking
-  )
-  .get(
-    "/formularioCoworking/:id",
-    jsonParser,
-    formularioCoworking.buscaFormularioCoworkingId
-  )
-  .post(
-    "/formularioCoworking",
-    jsonParser,
-    formularioCoworking.criarFormularioCoworking
-  )
-  .delete(
-    "/formularioCoworking/:id",
-    jsonParser,
-    formularioCoworking.deletaFormularioCoworking
-  );
+  .get("/coworkings", coworking.buscaTodosFormulariosCoworking)
+  .get("/coworking/:id", jsonParser, coworking.buscaFormularioCoworkingId)
+  .post("/coworking", jsonParser, coworking.criarFormularioCoworking)
+  .delete("/coworking/:id", jsonParser, coworking.deletaFormularioCoworking);
 
 export default router;
