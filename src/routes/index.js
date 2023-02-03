@@ -3,8 +3,8 @@ import bodyParser from "body-parser";
 import * as participante from "../controller/participanteController.js";
 import * as categoria from "../controller/categoriaController.js";
 import * as plano from "../controller/planoController.js";
-import * as formularioReuniao from "../controller/formularioReuniaoController.js";
-import * as formularioReuniaoParticipante from "../controller/formularioReuniaoParticipanteController.js";
+import * as reuniao from "../controller/ReuniaoController.js";
+import * as participanteReuniao from "../controller/participanteReuniaoController.js";
 
 var jsonParser = bodyParser.json();
 const router = express.Router();
@@ -31,39 +31,26 @@ router
   .delete("/plano/:id", jsonParser, plano.deletarPlano);
 
 router
-  .get("/formulariosReuniao", formularioReuniao.buscarTodasRespostas)
-  .get("/formularioReuniao/:id", jsonParser, formularioReuniao.buscarResposta)
-  .post("/formularioReuniao", jsonParser, formularioReuniao.criarResposta)
-  .put(
-    "/formularioReuniao/:id",
-    jsonParser,
-    formularioReuniao.atualizarResposta
-  )
-  .delete(
-    "/formularioReuniao/:id",
-    jsonParser,
-    formularioReuniao.deletarResposta
-  );
+  .get("/reunioes", reuniao.buscarTodasReunioes)
+  .get("/reuniao/:id", jsonParser, reuniao.buscarReuniao)
+  .post("/reuniao", jsonParser, reuniao.criarReuniao)
+  .put("/reuniao/:id", jsonParser, reuniao.atualizarReuniao)
+  .delete("/reuniao/:id", jsonParser, reuniao.deletarReuniao);
 
 router
   .get(
-    "/formularioReuniaoParticipantes",
-    formularioReuniaoParticipante.buscarTodosParticipantesReuniao
+    "/participantesReuniao",
+    participanteReuniao.buscarTodosParticipantesReuniao
   )
   .post(
-    "/formularioReuniaoParticipante",
+    "/participanteReuniao",
     jsonParser,
-    formularioReuniaoParticipante.criarParticipanteReuniao
+    participanteReuniao.criarParticipanteReuniao
   )
   .put(
-    "/formularioReuniaoParticipante/:id",
+    "/participanteReuniao/:id",
     jsonParser,
-    formularioReuniaoParticipante.atualizarParticipanteReuniao
-  )
-  .delete(
-    "/formularioReuniaoParticipante/:id",
-    jsonParser,
-    formularioReuniaoParticipante.deletarParticipanteReuniao
+    participanteReuniao.atualizarParticipanteReuniao
   );
 
 export default router;

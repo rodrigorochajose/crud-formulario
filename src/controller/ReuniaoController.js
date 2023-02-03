@@ -2,33 +2,33 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const buscarTodasRespostas = async (req, res) => {
+export const buscarTodasReunioes = async (req, res) => {
   try {
-    const todasRespostas = await prisma.formularioReuniao.findMany();
+    const todasReunioes = await prisma.reuniao.findMany();
 
-    res.status(200).json(todasRespostas);
+    res.status(200).json(todasReunioes);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const buscarResposta = async (req, res) => {
+export const buscarReuniao = async (req, res) => {
   try {
-    const resposta = await prisma.formularioReuniao.findUnique({
+    const reuniao = await prisma.reuniao.findUnique({
       where: { id: parseInt(req.params.id) },
     });
 
-    res.status(200).json(resposta);
+    res.status(200).json(reuniao);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const criarResposta = async (req, res) => {
+export const criarReuniao = async (req, res) => {
   const { visita, data, local, categoriaId, duracao, assunto } = req.body;
 
   try {
-    const respostaCriada = await prisma.formularioReuniao.create({
+    const reuniaoCriada = await prisma.reuniao.create({
       data: {
         visita,
         data,
@@ -39,17 +39,17 @@ export const criarResposta = async (req, res) => {
       },
     });
 
-    res.status(200).json(respostaCriada);
+    res.status(200).json(reuniaoCriada);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const atualizarResposta = async (req, res) => {
+export const atualizarReuniao = async (req, res) => {
   const { visita, data, local, categoriaId, duracao, assunto } = req.body;
 
   try {
-    const respostaAtualizada = await prisma.formularioReuniao.update({
+    const reuniaoAtualizada = await prisma.reuniao.update({
       where: {
         id: req.params.id,
       },
@@ -63,19 +63,19 @@ export const atualizarResposta = async (req, res) => {
       },
     });
 
-    res.status(200).json(respostaAtualizada);
+    res.status(200).json(reuniaoAtualizada);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const deletarResposta = async (req, res) => {
+export const deletarReuniao = async (req, res) => {
   try {
-    await prisma.formularioReuniao.delete({
+    await prisma.reuniao.delete({
       where: { id: parseInt(req.params.id) },
     });
 
-    res.status(200).json({ message: "Resposta deletada com sucesso!" });
+    res.status(200).json({ message: "Reunião deletada com sucesso!" });
   } catch (error) {
     res.status(400).send(error.message);
   }

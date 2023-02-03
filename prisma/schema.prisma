@@ -11,60 +11,60 @@ datasource db {
 }
 
 model Participante {
-  id          Int @id @default(autoincrement())
-  nome        String
-  email       String
-  cargo       String
-  formularios FormularioReuniaotoParticipante[]
-  createdAt   DateTime @default(now())
+  id                    Int @id @default(autoincrement())
+  nome                  String
+  email                 String
+  cargo                 String
+  participanteReuniao   ParticipanteReuniao[]
+  createdAt             DateTime @default(now())
 }
 
 model Categoria {
   id          Int @id @default(autoincrement())
   descricao   String
-  formulario  FormularioReuniao[]
+  reuniao     Reuniao[]
   createdAt   DateTime @default(now())
 }
 
-model FormularioReuniao {
-  id            Int @id @default(autoincrement())
-  visita        String
-  participante  FormularioReuniaotoParticipante[]
-  data          DateTime
-  local         String
-  categoria     Categoria @relation(fields: [categoriaId], references: [id])
-  categoriaId   Int
-  duracao       String
-  assunto       String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
+model Reuniao {
+  id                    Int @id @default(autoincrement())
+  visita                String
+  participanteReuniao   ParticipanteReuniao[]
+  data                  DateTime
+  local                 String
+  categoria             Categoria @relation(fields: [categoriaId], references: [id])
+  categoriaId           Int
+  duracao               String
+  assunto               String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now())
 }
 
-model FormularioReuniaotoParticipante {
-  formularioReuniaoParticipanteId Int @id @default(autoincrement())
-  formularioReuniao   FormularioReuniao @relation(fields: [formularioReuniaoId], references: [id])
-  formularioReuniaoId Int
+model ParticipanteReuniao {
+  participanteReuniaoId Int @id @default(autoincrement())
+  formularioReuniao   Reuniao @relation(fields: [reuniaoId], references: [id])
+  reuniaoId           Int
   participante        Participante @relation(fields: [participanteId], references: [id])
   participanteId      Int
 
 }
 
 model Plano {
-  id            Int @id @default(autoincrement())
-  descricao     String
-  formularioCoworking FormularioCoworking[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
+  id                    Int @id @default(autoincrement())
+  descricao             String
+  formularioCoworking   Coworking[]
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now())
 }
 
-model FormularioCoworking {
-  id          Int @id @default(autoincrement())
-  nome        String
-  telefone    String
-  organizacao String
-  data        DateTime
-  plano       Plano @relation(fields: [planoId], references: [id])
-  planoId     Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+model Coworking {
+  id            Int @id @default(autoincrement())
+  nome          String
+  telefone      String
+  organizacao   String
+  data          DateTime
+  plano         Plano @relation(fields: [planoId], references: [id])
+  planoId       Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
 }
