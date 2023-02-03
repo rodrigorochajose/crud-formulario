@@ -25,10 +25,10 @@ router
 
 router
   .get("/planos", plano.buscarTodosPlanos)
-  .get("/plano/:id", jsonParser, plano.buscarPlano)
-  .post("/plano", jsonParser, plano.criarPlano)
-  .put("/plano/:id", jsonParser, plano.atualizarPlano)
-  .delete("/plano/:id", jsonParser, plano.deletarPlano);
+  .get("/planos/:id", jsonParser, plano.buscarPlano)
+  .post("/planos", jsonParser, plano.criarPlano)
+  .put("/planos/:id", jsonParser, plano.atualizarPlano)
+  .delete("/planos/:id", jsonParser, plano.deletarPlano);
 
 router
   .get("/reunioes", reuniao.buscarTodasReunioes)
@@ -51,6 +51,27 @@ router
     "/participanteReuniao/:id",
     jsonParser,
     participanteReuniao.atualizarParticipanteReuniao
+  );
+
+router
+  .get(
+    "/formularioCoworking",
+    formularioCoworking.buscaTodosFormulariosCoworking
+  )
+  .get(
+    "/formularioCoworking/:id",
+    jsonParser,
+    formularioCoworking.buscaFormularioCoworkingId
+  )
+  .post(
+    "/formularioCoworking",
+    jsonParser,
+    formularioCoworking.criarFormularioCoworking
+  )
+  .delete(
+    "/formularioCoworking/:id",
+    jsonParser,
+    formularioCoworking.deletaFormularioCoworking
   );
 
 export default router;

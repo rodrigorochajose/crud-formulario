@@ -25,10 +25,11 @@ export const buscarPlano = async (req, res) => {
 };
 
 export const criarPlano = async (req, res) => {
+  const { descricao } = req.body
   try {
     const planoCriado = await prisma.plano.create({
       data: {
-        descricao: req.body.descricao,
+        descricao
       },
     });
 
