@@ -13,7 +13,7 @@ export const buscarTodosParticipantesReuniao = async (req, res) => {
   }
 };
 
-export const buscarParticipantes = async (reuniaoId) => {
+const buscarParticipantes = async (reuniaoId) => {
   return await prisma.participanteReuniao.findMany({
     where: { reuniaoId: parseInt(reuniaoId) },
     select: { participanteId: true },
@@ -21,14 +21,29 @@ export const buscarParticipantes = async (reuniaoId) => {
   });
 };
 
-//???????????
 export const criarParticipanteReuniao = async (req, res) => {
-  if (req.body) {
-    var { reuniaoId, participanteId } = req.body;
-  } else {
-    var { reuniaoId, participanteId } = req;
-  }
+  var { reuniaoId, participanteId } = req.body;
+  let dados = [];
 
+  try {
+    participanteId.forEach((id) => {
+      dados.push({
+        reuniaoId: parseInt(reuniaoId),
+        participanteId: id,
+      });
+    });
+
+    await prisma.participanteReuniao.createMany({
+      data: dados,
+    });
+    res.status(200).json({ message: "Reunião Criada com sucesso!" });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const criarParticipante = async (informacoes) => {
+  var { reuniaoId, participanteId } = informacoes;
   let dados = [];
 
   try {
@@ -43,7 +58,7 @@ export const criarParticipanteReuniao = async (req, res) => {
       data: dados,
     });
   } catch (error) {
-    throw new Error("erro");
+    throw new Error("Ocorreu um erro!");
   }
 };
 
@@ -76,7 +91,7 @@ export const atualizarParticipanteReuniao = async (req, res) => {
           reuniaoId: id,
           participanteId: participantesNovos.splice(0, (diferenca *= -1)),
         };
-        await criarParticipanteReuniao(participantesAdicionaDiferenca);
+        await criarParticipante(participantesAdicionaDiferenca);
       } else {
         const participantesDeletaDiferenca = {
           reuniaoId: id,

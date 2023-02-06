@@ -65,6 +65,7 @@ model Coworking {
   data          DateTime
   plano         Plano @relation(fields: [planoId], references: [id])
   planoId       Int
+  observacao    String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
 }
