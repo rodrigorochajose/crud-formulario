@@ -1,31 +1,22 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "Participante" (
+    "id" SERIAL NOT NULL,
+    "nome" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "cargo" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-  - You are about to drop the `FormularioCoworking` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `FormularioReuniao` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `FormularioReuniaotoParticipante` table. If the table is not empty, all the data it contains will be lost.
+    CONSTRAINT "Participante_pkey" PRIMARY KEY ("id")
+);
 
-*/
--- DropForeignKey
-ALTER TABLE "FormularioCoworking" DROP CONSTRAINT "FormularioCoworking_planoId_fkey";
+-- CreateTable
+CREATE TABLE "Categoria" (
+    "id" SERIAL NOT NULL,
+    "descricao" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
--- DropForeignKey
-ALTER TABLE "FormularioReuniao" DROP CONSTRAINT "FormularioReuniao_categoriaId_fkey";
-
--- DropForeignKey
-ALTER TABLE "FormularioReuniaotoParticipante" DROP CONSTRAINT "FormularioReuniaotoParticipante_formularioReuniaoId_fkey";
-
--- DropForeignKey
-ALTER TABLE "FormularioReuniaotoParticipante" DROP CONSTRAINT "FormularioReuniaotoParticipante_participanteId_fkey";
-
--- DropTable
-DROP TABLE "FormularioCoworking";
-
--- DropTable
-DROP TABLE "FormularioReuniao";
-
--- DropTable
-DROP TABLE "FormularioReuniaotoParticipante";
+    CONSTRAINT "Categoria_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Reuniao" (
@@ -44,25 +35,36 @@ CREATE TABLE "Reuniao" (
 
 -- CreateTable
 CREATE TABLE "ParticipanteReuniao" (
-    "participanteReuniao" SERIAL NOT NULL,
+    "participanteReuniaoId" SERIAL NOT NULL,
     "reuniaoId" INTEGER NOT NULL,
     "participanteId" INTEGER NOT NULL,
 
-    CONSTRAINT "ParticipanteReuniao_pkey" PRIMARY KEY ("participanteReuniao")
+    CONSTRAINT "ParticipanteReuniao_pkey" PRIMARY KEY ("participanteReuniaoId")
 );
 
 -- CreateTable
-CREATE TABLE "Coworking" (
+CREATE TABLE "Plano" (
+    "id" SERIAL NOT NULL,
+    "descricao" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Plano_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Locacao" (
     "id" SERIAL NOT NULL,
     "nome" TEXT NOT NULL,
     "telefone" TEXT NOT NULL,
     "organizacao" TEXT NOT NULL,
     "data" TIMESTAMP(3) NOT NULL,
     "planoId" INTEGER NOT NULL,
+    "observacao" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Coworking_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Locacao_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
@@ -75,4 +77,4 @@ ALTER TABLE "ParticipanteReuniao" ADD CONSTRAINT "ParticipanteReuniao_reuniaoId_
 ALTER TABLE "ParticipanteReuniao" ADD CONSTRAINT "ParticipanteReuniao_participanteId_fkey" FOREIGN KEY ("participanteId") REFERENCES "Participante"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Coworking" ADD CONSTRAINT "Coworking_planoId_fkey" FOREIGN KEY ("planoId") REFERENCES "Plano"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Locacao" ADD CONSTRAINT "Locacao_planoId_fkey" FOREIGN KEY ("planoId") REFERENCES "Plano"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -22,6 +22,7 @@ model Participante {
 model Categoria {
   id          Int @id @default(autoincrement())
   descricao   String
+  observacao  String
   reuniao     Reuniao[]
   createdAt   DateTime @default(now())
 }
@@ -52,12 +53,13 @@ model ParticipanteReuniao {
 model Plano {
   id                    Int @id @default(autoincrement())
   descricao             String
-  formularioCoworking   Coworking[]
+  observacao            String
+  formularioCoworking   Locacao[]
   createdAt             DateTime @default(now())
   updatedAt             DateTime @default(now())
 }
 
-model Coworking {
+model Locacao {
   id            Int @id @default(autoincrement())
   nome          String
   telefone      String
