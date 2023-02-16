@@ -17,25 +17,27 @@ model Participante {
   cargo                 String
   participanteReuniao   ParticipanteReuniao[]
   createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now())
 }
 
 model Categoria {
   id          Int @id @default(autoincrement())
   descricao   String
-  observacao  String
+  observacao  String?
   reuniao     Reuniao[]
   createdAt   DateTime @default(now())
+  updatedAt             DateTime @default(now())
 }
 
 model Reuniao {
   id                    Int @id @default(autoincrement())
   visita                String
   participanteReuniao   ParticipanteReuniao[]
-  data                  DateTime
+  data                  String
   local                 String
   categoria             Categoria @relation(fields: [categoriaId], references: [id])
   categoriaId           Int
-  duracao               String
+  duracao               String?
   assunto               String
   createdAt             DateTime @default(now())
   updatedAt             DateTime @default(now())
@@ -47,13 +49,14 @@ model ParticipanteReuniao {
   reuniaoId           Int
   participante        Participante @relation(fields: [participanteId], references: [id])
   participanteId      Int
-
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now())
 }
 
 model Plano {
   id                    Int @id @default(autoincrement())
   descricao             String
-  observacao            String
+  observacao            String?
   formularioCoworking   Locacao[]
   createdAt             DateTime @default(now())
   updatedAt             DateTime @default(now())
@@ -64,10 +67,10 @@ model Locacao {
   nome          String
   telefone      String
   organizacao   String
-  data          DateTime
+  data          String
   plano         Plano @relation(fields: [planoId], references: [id])
   planoId       Int
-  observacao    String
+  observacao    String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
 }

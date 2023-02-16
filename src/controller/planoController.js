@@ -4,7 +4,13 @@ const prisma = new PrismaClient();
 
 export const buscarTodosPlanos = async (req, res) => {
   try {
-    const todosPlanos = await prisma.plano.findMany();
+    const todosPlanos = await prisma.plano.findMany({
+      select: {
+        id: true,
+        descricao: true,
+      },
+      orderBy: { id: "asc" },
+    });
 
     res.status(200).json(todosPlanos);
   } catch (error) {
@@ -25,11 +31,13 @@ export const buscarPlano = async (req, res) => {
 };
 
 export const criarPlano = async (req, res) => {
-  const { descricao } = req.body
+  const { descricao, observacao } = req.body;
+
   try {
     const planoCriado = await prisma.plano.create({
       data: {
-        descricao
+        descricao,
+        observacao,
       },
     });
 
@@ -40,13 +48,15 @@ export const criarPlano = async (req, res) => {
 };
 
 export const atualizarPlano = async (req, res) => {
+  const { descricao, observacao } = req.body;
   try {
     const planoAtualizado = await prisma.plano.update({
       where: {
         id: parseInt(req.params.id),
       },
       data: {
-        descricao: req.body.descricao,
+        descricao,
+        observacao,
         updatedAt: new Date(),
       },
     });

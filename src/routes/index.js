@@ -5,7 +5,7 @@ import * as categoria from "../controller/categoriaController.js";
 import * as plano from "../controller/planoController.js";
 import * as reuniao from "../controller/ReuniaoController.js";
 import * as participanteReuniao from "../controller/participanteReuniaoController.js";
-import * as coworking from "../controller/coworkingController.js";
+import * as locacao from "../controller/locacaoController.js";
 
 var jsonParser = bodyParser.json();
 const router = express.Router();
@@ -26,10 +26,10 @@ router
 
 router
   .get("/planos", plano.buscarTodosPlanos)
-  .get("/planos/:id", jsonParser, plano.buscarPlano)
-  .post("/planos", jsonParser, plano.criarPlano)
-  .put("/planos/:id", jsonParser, plano.atualizarPlano)
-  .delete("/planos/:id", jsonParser, plano.deletarPlano);
+  .get("/plano/:id", jsonParser, plano.buscarPlano)
+  .post("/plano", jsonParser, plano.criarPlano)
+  .put("/plano/:id", jsonParser, plano.atualizarPlano)
+  .delete("/plano/:id", jsonParser, plano.deletarPlano);
 
 router
   .get("/reunioes", reuniao.buscarTodasReunioes)
@@ -55,9 +55,10 @@ router
   );
 
 router
-  .get("/coworkings", coworking.buscaTodosFormulariosCoworking)
-  .get("/coworking/:id", jsonParser, coworking.buscaFormularioCoworkingId)
-  .post("/coworking", jsonParser, coworking.criarFormularioCoworking)
-  .delete("/coworking/:id", jsonParser, coworking.deletaFormularioCoworking);
+  .get("/locacoes", locacao.buscaTodasLocacoes)
+  .get("/locacao/:id", jsonParser, locacao.buscaLocacao)
+  .post("/locacao", jsonParser, locacao.criarLocacao)
+  .put("/locacao/:id", jsonParser, locacao.atualizarLocacao)
+  .delete("/locacao/:id", jsonParser, locacao.deletaLocacao);
 
 export default router;

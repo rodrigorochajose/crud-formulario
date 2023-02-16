@@ -4,7 +4,16 @@ const prisma = new PrismaClient();
 
 export const buscarTodosParticipantes = async (req, res) => {
   try {
-    const todosParticipantes = await prisma.participante.findMany();
+    const todosParticipantes = await prisma.participante.findMany({
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        cargo: true,
+      },
+      orderBy: { id: "asc" },
+    });
+
     res.status(200).json(todosParticipantes);
   } catch (error) {
     res.status(400).send(error.message);
@@ -39,6 +48,7 @@ export const criarParticipante = async (req, res) => {
 
     res.status(200).json(participanteCriado);
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };

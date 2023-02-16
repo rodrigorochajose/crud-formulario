@@ -4,7 +4,13 @@ const prisma = new PrismaClient();
 
 export const buscarTodasCategorias = async (req, res) => {
   try {
-    const todasCategorias = await prisma.categoria.findMany();
+    const todasCategorias = await prisma.categoria.findMany({
+      select: {
+        id: true,
+        descricao: true,
+      },
+      orderBy: { id: "asc" },
+    });
 
     res.status(200).json(todasCategorias);
   } catch (error) {
@@ -25,10 +31,12 @@ export const buscarCategoria = async (req, res) => {
 };
 
 export const criarCategoria = async (req, res) => {
+  const { descricao, observacao } = req.body;
   try {
     const categoriaCriada = await prisma.categoria.create({
       data: {
-        descricao: req.body.descricao,
+        descricao,
+        observacao,
       },
     });
 

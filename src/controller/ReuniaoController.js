@@ -4,7 +4,18 @@ const prisma = new PrismaClient();
 
 export const buscarTodasReunioes = async (req, res) => {
   try {
-    const todasReunioes = await prisma.reuniao.findMany();
+    const todasReunioes = await prisma.reuniao.findMany({
+      select: {
+        id: true,
+        visita: true,
+        data: true,
+        local: true,
+        categoriaId: true,
+        duracao: true,
+        assunto: true,
+      },
+      orderBy: { id: "asc" },
+    });
 
     res.status(200).json(todasReunioes);
   } catch (error) {
@@ -25,7 +36,8 @@ export const buscarReuniao = async (req, res) => {
 };
 
 export const criarReuniao = async (req, res) => {
-  const { visita, data, local, categoriaId, duracao, assunto } = req.body;
+  console.log(req.body);
+  const { visita, data, local, categoriaId, duracao, assunto } = req.body[0];
 
   try {
     const reuniaoCriada = await prisma.reuniao.create({
@@ -41,6 +53,7 @@ export const criarReuniao = async (req, res) => {
 
     res.status(200).json(reuniaoCriada);
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };

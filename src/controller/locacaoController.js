@@ -2,33 +2,44 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const buscaTodosFormulariosCoworking = async (req, res) => {
+export const buscaTodasLocacoes = async (req, res) => {
   try {
-    const formulariosBuscados = await prisma.Coworking.findMany();
+    const locacoes = await prisma.Locacao.findMany({
+      select: {
+        id: true,
+        nome: true,
+        telefone: true,
+        organizacao: true,
+        data: true,
+        plano: true,
+        observacao: true,
+      },
+      orderBy: { id: "asc" },
+    });
 
-    res.status(200).json(formulariosBuscados);
+    res.status(200).json(locacoes);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const buscaFormularioCoworkingId = async (req, res) => {
+export const buscaLocacao = async (req, res) => {
   try {
-    const formularioPorId = await prisma.Coworking.findUnique({
+    const locacao = await prisma.Locacao.findUnique({
       where: { id: parseInt(req.params.id) },
     });
 
-    res.status(200).json(formularioPorId);
+    res.status(200).json(locacao);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const criarFormularioCoworking = async (req, res) => {
+export const criarLocacao = async (req, res) => {
   const { nome, telefone, organizacao, data, planoId } = req.body;
 
   try {
-    const formularioCoworkingCriado = await prisma.Coworking.create({
+    const locacaoCriada = await prisma.Locacao.create({
       data: {
         nome,
         telefone,
@@ -38,16 +49,16 @@ export const criarFormularioCoworking = async (req, res) => {
       },
     });
 
-    res.status(200).json(formularioCoworkingCriado);
+    res.status(200).json(locacaoCriada);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const atualizaFormularioCoworking = async (req, res) => {
+export const atualizarLocacao = async (req, res) => {
   const { nome, telefone, organizacao, data, planoId } = req.body;
   try {
-    const formularioCoworkingAtualizado = await prisma.Coworking.update({
+    const locacaoAtualizada = await prisma.Locacao.update({
       where: { id: parseInt(req.params.id) },
       data: {
         nome,
@@ -58,15 +69,15 @@ export const atualizaFormularioCoworking = async (req, res) => {
       },
     });
 
-    res.status(200).json(formularioCoworkingAtualizado);
+    res.status(200).json(locacaoAtualizada);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
 
-export const deletaFormularioCoworking = async (req, res) => {
+export const deletaLocacao = async (req, res) => {
   try {
-    await prisma.Coworking.delete({
+    await prisma.Locacao.delete({
       where: {
         id: parseInt(req.params.id),
       },
