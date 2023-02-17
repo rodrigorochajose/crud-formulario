@@ -43,6 +43,10 @@ router
     "/participantesReuniao",
     participanteReuniao.buscarTodosParticipantesReuniao
   )
+  .get(
+    "/participantePorReuniao/:id",
+    participanteReuniao.buscarParticipantesPorReuniao
+  )
   .post(
     "/participanteReuniao",
     jsonParser,

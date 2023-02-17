@@ -9,6 +9,20 @@ export const buscarTodosParticipantesReuniao = async (req, res) => {
     });
     res.status(200).json(todosParticipantes);
   } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+export const buscarParticipantesPorReuniao = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const participantesPorReuniao = await prisma.participanteReuniao.findMany({
+      where: { reuniaoId: parseInt(id) },
+    });
+
+    res.status(200).json(participantesPorReuniao);
+  } catch (error) {
     res.status(400).send(error.message);
   }
 };
@@ -22,19 +36,9 @@ const buscarParticipantes = async (reuniaoId) => {
 };
 
 export const criarParticipanteReuniao = async (req, res) => {
-  var { reuniaoId, participanteId } = req.body;
-  let dados = [];
-
   try {
-    participanteId.forEach((id) => {
-      dados.push({
-        reuniaoId: parseInt(reuniaoId),
-        participanteId: id,
-      });
-    });
-
     await prisma.participanteReuniao.createMany({
-      data: dados,
+      data: req.body,
     });
     res.status(200).json({ message: "Reunião Criada com sucesso!" });
   } catch (error) {

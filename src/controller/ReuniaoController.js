@@ -7,10 +7,14 @@ export const buscarTodasReunioes = async (req, res) => {
     const todasReunioes = await prisma.reuniao.findMany({
       select: {
         id: true,
+        categoria: {
+          select: {
+            descricao: true,
+          },
+        },
         visita: true,
         data: true,
         local: true,
-        categoriaId: true,
         duracao: true,
         assunto: true,
       },
@@ -36,8 +40,7 @@ export const buscarReuniao = async (req, res) => {
 };
 
 export const criarReuniao = async (req, res) => {
-  console.log(req.body);
-  const { visita, data, local, categoriaId, duracao, assunto } = req.body[0];
+  const { visita, data, local, categoriaId, duracao, assunto } = req.body;
 
   try {
     const reuniaoCriada = await prisma.reuniao.create({
@@ -53,7 +56,6 @@ export const criarReuniao = async (req, res) => {
 
     res.status(200).json(reuniaoCriada);
   } catch (error) {
-    console.log(error.message);
     res.status(400).send(error.message);
   }
 };

@@ -11,8 +11,12 @@ export const buscaTodasLocacoes = async (req, res) => {
         telefone: true,
         organizacao: true,
         data: true,
-        plano: true,
         observacao: true,
+        plano: {
+          select: {
+            descricao: true,
+          },
+        },
       },
       orderBy: { id: "asc" },
     });
@@ -36,7 +40,7 @@ export const buscaLocacao = async (req, res) => {
 };
 
 export const criarLocacao = async (req, res) => {
-  const { nome, telefone, organizacao, data, planoId } = req.body;
+  const { nome, telefone, organizacao, data, planoId, observacao } = req.body;
 
   try {
     const locacaoCriada = await prisma.Locacao.create({
@@ -46,17 +50,20 @@ export const criarLocacao = async (req, res) => {
         organizacao,
         data,
         planoId,
+        observacao,
       },
     });
 
     res.status(200).json(locacaoCriada);
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
 
 export const atualizarLocacao = async (req, res) => {
-  const { nome, telefone, organizacao, data, planoId } = req.body;
+  const { nome, telefone, organizacao, data, planoId, descricao, observacao } =
+    req.body;
   try {
     const locacaoAtualizada = await prisma.Locacao.update({
       where: { id: parseInt(req.params.id) },
@@ -66,6 +73,8 @@ export const atualizarLocacao = async (req, res) => {
         organizacao,
         data,
         planoId,
+        descricao,
+        observacao,
       },
     });
 
