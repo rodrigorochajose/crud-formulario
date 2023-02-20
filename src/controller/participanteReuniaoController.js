@@ -68,7 +68,11 @@ const criarParticipante = async (informacoes) => {
 
 export const atualizarParticipanteReuniao = async (req, res) => {
   const { id } = req.params;
-  let participantesNovos = req.body.participanteId;
+
+  let participantesNovos = req.body.map((item) => {
+    return item.participanteId;
+  });
+
   try {
     const participantes = await buscarParticipantes(id);
 
@@ -121,6 +125,7 @@ export const atualizarParticipanteReuniao = async (req, res) => {
       .status(200)
       .json({ message: "Participantes atualizados com sucesso! " });
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };

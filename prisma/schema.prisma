@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
 }
 
 datasource db {
@@ -26,7 +27,7 @@ model Categoria {
   observacao  String?
   reuniao     Reuniao[]
   createdAt   DateTime @default(now())
-  updatedAt             DateTime @default(now())
+  updatedAt   DateTime @default(now())
 }
 
 model Reuniao {
@@ -35,7 +36,7 @@ model Reuniao {
   participanteReuniao   ParticipanteReuniao[]
   data                  String
   local                 String
-  categoria             Categoria @relation(fields: [categoriaId], references: [id])
+  categoria             Categoria @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
   categoriaId           Int
   duracao               String?
   assunto               String
@@ -44,20 +45,20 @@ model Reuniao {
 }
 
 model ParticipanteReuniao {
-  participanteReuniaoId Int @id @default(autoincrement())
-  formularioReuniao   Reuniao @relation(fields: [reuniaoId], references: [id])
-  reuniaoId           Int
-  participante        Participante @relation(fields: [participanteId], references: [id])
-  participanteId      Int
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @default(now())
+  participanteReuniaoId   Int @id @default(autoincrement())
+  formularioReuniao       Reuniao @relation(fields: [reuniaoId], references: [id], onDelete: Cascade)
+  reuniaoId               Int
+  participante            Participante @relation(fields: [participanteId], references: [id], onDelete: Cascade)
+  participanteId          Int
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now())
 }
 
 model Plano {
   id                    Int @id @default(autoincrement())
   descricao             String
   observacao            String?
-  formularioCoworking   Locacao[]
+  locacao   Locacao[]
   createdAt             DateTime @default(now())
   updatedAt             DateTime @default(now())
 }
@@ -68,7 +69,7 @@ model Locacao {
   telefone      String
   organizacao   String
   data          String
-  plano         Plano @relation(fields: [planoId], references: [id])
+  plano         Plano @relation(fields: [planoId], references: [id], onDelete: Cascade)
   planoId       Int
   observacao    String?
   createdAt     DateTime @default(now())

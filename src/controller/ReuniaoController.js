@@ -61,12 +61,12 @@ export const criarReuniao = async (req, res) => {
 };
 
 export const atualizarReuniao = async (req, res) => {
-  const { visita, data, local, categoriaId, duracao, assunto } = req.body;
+  const { visita, data, local, duracao, categoriaId, assunto } = req.body;
 
   try {
     const reuniaoAtualizada = await prisma.reuniao.update({
       where: {
-        id: req.params.id,
+        id: parseInt(req.params.id),
       },
       data: {
         visita,
@@ -80,6 +80,7 @@ export const atualizarReuniao = async (req, res) => {
 
     res.status(200).json(reuniaoAtualizada);
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
@@ -92,6 +93,7 @@ export const deletarReuniao = async (req, res) => {
 
     res.status(200).json({ message: "Reunião deletada com sucesso!" });
   } catch (error) {
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
