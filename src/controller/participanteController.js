@@ -48,7 +48,6 @@ export const criarParticipante = async (req, res) => {
 
     res.status(200).json(participanteCriado);
   } catch (error) {
-    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
@@ -63,6 +62,7 @@ export const atualizarParticipante = async (req, res) => {
         nome,
         email,
         cargo,
+        updatedAt: new Date(),
       },
     });
 

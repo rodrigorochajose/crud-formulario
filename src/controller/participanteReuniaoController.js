@@ -9,7 +9,6 @@ export const buscarTodosParticipantesReuniao = async (req, res) => {
     });
     res.status(200).json(todosParticipantes);
   } catch (error) {
-    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
@@ -80,8 +79,8 @@ export const atualizarParticipanteReuniao = async (req, res) => {
       return participante.participanteId;
     });
 
-    const comumIds = participantesNovos.filter((x) =>
-      participantesAtuais.includes(x)
+    const comumIds = participantesNovos.filter((id) =>
+      participantesAtuais.includes(id)
     );
 
     if (comumIds.length > 0) {
@@ -117,6 +116,7 @@ export const atualizarParticipanteReuniao = async (req, res) => {
         },
         data: {
           participanteId,
+          updatedAt: new Date(),
         },
       });
     });

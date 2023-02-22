@@ -56,7 +56,6 @@ export const criarLocacao = async (req, res) => {
 
     res.status(200).json(locacaoCriada);
   } catch (error) {
-    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
@@ -75,6 +74,7 @@ export const atualizarLocacao = async (req, res) => {
         planoId,
         descricao,
         observacao,
+        updatedAt: new Date(),
       },
     });
 

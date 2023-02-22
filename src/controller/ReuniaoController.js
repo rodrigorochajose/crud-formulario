@@ -75,12 +75,12 @@ export const atualizarReuniao = async (req, res) => {
         categoriaId,
         duracao,
         assunto,
+        updatedAt: new Date(),
       },
     });
 
     res.status(200).json(reuniaoAtualizada);
   } catch (error) {
-    console.log(error.message);
     res.status(400).send(error.message);
   }
 };
@@ -93,7 +93,6 @@ export const deletarReuniao = async (req, res) => {
 
     res.status(200).json({ message: "Reunião deletada com sucesso!" });
   } catch (error) {
-    console.log(error.message);
     res.status(400).send(error.message);
   }
 };

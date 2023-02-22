@@ -47,13 +47,16 @@ export const criarCategoria = async (req, res) => {
 };
 
 export const atualizarCategoria = async (req, res) => {
+  const { descricao, observacao } = req.body;
   try {
     const categoriaAtualizada = await prisma.categoria.update({
       where: {
         id: parseInt(req.params.id),
       },
       data: {
-        descricao: req.body.descricao,
+        descricao,
+        observacao,
+        updatedAt: new Date(),
       },
     });
 
